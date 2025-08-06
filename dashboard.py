@@ -12,11 +12,41 @@ from Model import run_scenario, scenarios, clinic_totals, weeks_open  # Added we
 # -------------------------------
 # --- Simple Password Gateway ---
 # -------------------------------
-st.title("🏥 Clinic Profitability Dashboard")
-password = st.text_input("Enter password:", type="password")
-if password != "naomhthesportstherapist":
-    st.warning("Please enter the correct password to access the dashboard.")
-    st.stop()
+import streamlit as st
+import time
+
+# --- Config ---
+APP_PASSWORD = "naomhthesportstherapist"  # Change if needed
+SESSION_TIMEOUT = 30 * 60  # 30 minutes in seconds
+
+# --- Initialize session state variables ---
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+    st.session_state.last_login_time = None
+
+# --- Check for timeout ---
+if st.session_state.authenticated:
+    # If session timeout exceeded, log out automatically
+    if st.session_state.last_login_time and (time.time() - st.session_state.last_login_time > SESSION_TIMEOUT):
+        st.session_state.authenticated = False
+        st.warning("🔒 Session timed out. Please re-enter the password.")
+
+# --- Authentication check ---
+if not st.session_state.authenticated:
+    st.title("🏥 Clinic Profitability Dashboard")
+    password = st.text_input("Enter password:", type="password")
+
+    if password == APP_PASSWORD:
+        st.session_state.authenticated = True
+        st.session_state.last_login_time = time.time()
+        st.success("✅ Access granted! Welcome.")
+        st.rerun()  # Refresh to hide the password box
+
+    elif password:
+        st.error("❌ Incorrect password. Please try again.")
+        st.stop()
+    else:
+        st.stop()
 
 # ---------------------
 # 1. Streamlit Config
