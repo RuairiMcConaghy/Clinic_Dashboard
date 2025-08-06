@@ -9,6 +9,15 @@ import base64
 from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
 from Model import run_scenario, scenarios, clinic_totals, weeks_open  # Added weeks_open for calculations
 
+# -------------------------------
+# --- Simple Password Gateway ---
+# -------------------------------
+st.title("🏥 Clinic Profitability Dashboard")
+password = st.text_input("Enter password:", type="password")
+if password != "naomhthesportstherapist":
+    st.warning("Please enter the correct password to access the dashboard.")
+    st.stop()
+
 # ---------------------
 # 1. Streamlit Config
 # ---------------------
