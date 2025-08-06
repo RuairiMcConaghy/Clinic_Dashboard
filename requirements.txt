@@ -1,0 +1,14 @@
+# Core dependencies
+pandas
+numpy          # pandas depends on this, and for numerical ops
+matplotlib     # used in Model.py for break-even plots
+plotly         # interactive charts in dashboard.py
+
+# Streamlit and UI
+streamlit
+st-aggrid      # interactive tables
+pillow         # PIL for image/Logo.webp
+xlsxwriter     # for Excel export
+
+# Optional but recommended
+openpyxl       # Ensures Excel files load/save properly
